@@ -1,92 +1,97 @@
-# Personal AI Investment Research Agent
+# Personal AI Investment Research Agent (ApexQ)
 
-🚀 **Live Production Link:** https://apexq.onrender.com/
-A lightweight, autonomous web-research engine that bridges live internet scrapers with structured LLM analytical reasoning to evaluate corporate entities without default positivity or confirmation bias.
+🚀 **Live Production Link:** [https://apexq.onrender.com/](https://apexq.onrender.com/)
 
+ApexQ is a smart, independent web-research tool designed to analyze companies objectively. It automatically connects live internet search engines with an advanced Artificial Intelligence (AI) model to evaluate businesses without the usual "cheerleading" or confirmation bias found in standard AI tools.
 
-## Overview — What It Does
-This application automatically parses public markets data to help investors de-risk their analytical research pipeline. 
-* **Autonomous Web Retrieval:** Integrates a Tavily Search API retriever to instantly extract real-time financial reporting, recent earnings data, and macroeconomic news directly from the live web.
-* **Objective Filtering Framework:** Processes raw text through a customized Google Gemini logic layer configured to enforce critical skepticism, completely mitigating standard LLM "cheerleading" habits.
-* **Balanced Analysis Interface:** Outputs data-driven indicators containing structured executive summaries alongside balanced competitive matrices outlining operational advantages and structural vulnerabilities.
+---
 
+## 🧐 Overview — What It Does
 
-## How to Run It — Setup & Run Steps
+This application does the heavy lifting for investors by gathering real-world web data and providing a balanced risk assessment of any company.
 
-### Prerequisite Environment Variables
-Create a file named `.env` inside `backend/` directory:
+*   **Live Web Research:** It uses the Tavily Search API to instantly find real-time financial news, recent earnings reports, and market updates across the internet.
+*   **Unbiased AI Evaluation:** It processes raw web data through the Google Gemini AI model. The system is explicitly trained to be skeptical, ensuring the AI looks critically at a company's weaknesses instead of just repeating positive hype.
+*   **Clean Financial Dashboard:** It displays a neat summary showing a clear recommendation ("INVEST" or "PASS"), along with organized lists of the company's real operational strengths and structural risks.
+
+---
+
+## 🚀 How to Run It — Setup & Run Steps
+
+### 🛠️ Step 1: Set Up the Environment Variables
+Create a file named `.env` inside the `backend/` directory of the project and add your API keys:
+
 ```env
 PORT=5000
 TAVILY_API_KEY=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
 GEMINI_API_KEY=AQ.Ab8RN6KxwlOpQzVyf-wxQV3E5zFI13aPJtq-fjS3K6Ga119cFw
+🖥️ Step 2: Launch the Backend Server
+Open your terminal and run the following commands:
 
-
-1. Backend Service Launch
 Bash
 cd backend
-# Note: Use legacy-peer-deps to bypass minor upstream LangChain/Zod schema framework type checks
+# Install dependencies (using legacy-peer-deps to prevent package version conflicts)
 npm install @langchain/google-genai --legacy-peer-deps
 npm install
 node server.js
-The terminal will display: Backend running on port 5000
+Your terminal will display: Backend running on port 5000
 
-2. Frontend User Interface Launch
+🎨 Step 3: Launch the Frontend Interface
+Open a second terminal window and run:
+
 Bash
-cd ../frontend
+cd frontend
 npm install
 npm run dev
-Open local browser to access the application dashboard interface.
+Click the local link generated in the terminal to open your interactive dashboard in the browser.
 
+🏗️ How It Works — Architecture Flow
+User Search: You type a company name into the React frontend dashboard. The app sends this data to the Node.js backend server.
 
-### How It Works — Approach & Architecture
-Client Dispatches Payload: The React interface posts the sanitized companyName input value over to the local Node.js Express server (http://127.0.0.1:5000/api/research).
+Live Scraping: The backend asks the Tavily Search API to scan the internet for the most recent financial and stock information related to that company.
 
-Context Enrichment Engine: The backend invokes TavilySearchAPIRetriever to execute advanced live search scrapers over corporate indices ("latest earnings guidance revenue stock performance").
+Strict AI Prompting: The raw search results are packaged with strict analytical rules and sent directly to the Gemini AI model.
 
-Structured Prompt Constraints: Raw search fragments are transformed into stringified payloads and contextualized via strict validation instructions inside our systemInstruction parameters.
+Objective Thinking: The AI model runs at a strict temperature: 0 setting. This stops the AI from "hallucinating" (making up fake data) or being overly optimistic.
 
-Deterministic Inference Layer: The structured object drops into ChatGoogleGenerativeAI mapping over gemini-1.5-flash at a deterministic temperature: 0.
+Data Structuring: The backend uses a validation tool (Zod) to read the AI's response and format it cleanly into text, lists, and tables so the frontend can display it beautifully.
 
-Validation & Mapping Schema: The LLM's raw text feedback gets run through a Zod-backed StructuredOutputParser to ensure data matching arrays are structured precisely for the frontend hooks.
+⚖️ Key Decisions & Technical Trade-offs
+1. Using Google Gemini (1.5 Flash) Instead of OpenAI
+Why: OpenAI requires pre-paid credits to use their API, which adds friction for testing. Google's Gemini platform offers a generous free tier for developers, making it cost-effective and easy to launch.
 
-⚖️ Key Decisions & Trade-offs
-1. Swapping ChatOpenAI to ChatGoogleGenerativeAI (Gemini 1.5 Flash)
-Why: OpenAI platforms require pre-paid account credit structures which create unnecessary friction for isolated technical evaluation tracks. Google's Gemini infrastructure features an incredibly generous developer sandbox tier, making it cost-efficient.
+Trade-off: LangChain properties are written slightly differently for Google models than OpenAI models, requiring custom code configurations to handle the data fields correctly.
 
-Trade-off: LangChain parameters vary between cloud vendors (model vs modelName). I modified initialization variables to map cleanly within LangChain's updated Google structural schemas.
+2. Eliminating AI "Positivity Bias" via Temperature Control
+Why: Standard AI models are programmed to be friendly and helpful. Left alone, they will enthusiastically recommend investing in failing companies just because they found a few happy words in a news article.
 
-2. Eradicating Default Positivity Bias via Strict Temperature Control
-Why: Standard LLMs defaults favor enthusiastic compliance, leading them to recommend investing in deeply distressed entities if a single upbeat keyword appears.
+Trade-off: We locked the AI's creativity setting (temperature) to zero. The system is coded to default to a PASS decision unless solid, undeniable financial health metrics are found in the live search data.
 
-Trade-off: I hard-locked temperature: 0 to eliminate creative hallucinations. I refactored prompt rules to treat a PASS decision as the default baseline unless financial health indicators are explicitly validated in the search content.
+3. Smart Handling of Bad Inputs
+Why: If a user types a fake company name, a normal AI might accidentally make up a fake story about it.
 
-3. Graceful Fallbacks for Invalid Inputs
-Why: Users can type fictional business entities. Instead of letting the model hallucinate data, I created a programmatic regex-backed guardrail function (isLikelyInvalidCompanyName) that cross-references text lists to drop bad queries prior to invoking the model layer.
+Trade-off: We built a quick programmatic check (a regex guardrail) that blocks gibberish or fake company entries before the application even wastes an API call.
 
-🧪 Example Runs
-Case 1: High-Growth Target (INVEST)
+🧪 Example Analysis Scenarios
+🟢 Case 1: High-Growth Target (Result: INVEST)
 Input: SanDisk (or Micron)
 
-Decision: INVEST
+AI Summary: Highlights the global shortage of enterprise storage components and the explosive demand for hardware driven by new AI data centers.
 
-Summary Sample: Captures the extreme global shortage of enterprise NAND flash memory storage architectures and the explosive market demand for AI data infrastructure clusters.
+Strengths: Massive growth in sales volume and powerful pricing control over competitors.
 
-Strengths: 600%+ upward volume trajectory, massive supplier pricing leverage.
+Risks: Sudden shifts in tech industry manufacturing cycles and raw component supply shortages.
 
-Risks: Industry cyclicality shifts, raw component log bottlenecks.
-
-Case 2: Restructuring Target (PASS)
+🔴 Case 2: Restructuring Target (Result: PASS)
 Input: Altice USA
 
-Decision: PASS
+AI Summary: Automatically triggers a safety warning after detecting active corporate debt negotiations and heavy financial restructuring.
 
-Summary Sample: Triggers automated safety blocks based on active out-of-court liability management exercises and severe balance sheet restructuring constraints.
+Strengths: Large, well-established regional internet and broadband network with a stable customer base.
 
-Strengths: Robust regional fixed broadband footprint, large historical residential user base.
+Risks: High risk of legal action from creditors and unmanageable corporate debt pressures.
 
-Risks: Aggressive near-term creditor litigation, unmanageable macro debt leverage.
+🔮 What I Would Improve With More Time
+Deep Financial Document Reading (RAG): Connect a vector database (like Pinecone or ChromaDB) to let the AI instantly read through multi-year, official 10-K and 10-Q SEC corporate filing documents alongside current news.
 
-🚀 What I Would Improve with More Time
-Vector Database RAG Chains: Integrate historical company financial filings (10-K, 10-Q SEC reports) using a vector store (e.g., Pinecone or ChromaDB) to blend deep multi-year fundamentals with live news sentiment.
-
-Expanded Schema Validation: Introduce additional analytical metrics into the Zod schema array layer, including P/E ratios, free cash flow figures, and relative industry multiples to provide deeper quantitative scoring.
+Advanced Numerical Scoring: Expand the validation settings to pull exact mathematical data points—like Price-to-Earnings (P/E) ratios and Free Cash Flow numbers—to give companies a calculated quantitative score.
