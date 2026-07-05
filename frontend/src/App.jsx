@@ -13,8 +13,7 @@ import {
   Info
 } from 'lucide-react';
 
-// Import local assets from your src/assets directory path
-import logoImg from './assets/logo.jpeg';
+
 
 function App() {
   const [companyName, setCompanyName] = useState('');
@@ -64,7 +63,7 @@ function App() {
       {/* Clean Full-Screen Brand Header with no navigation options */}
       <nav className="navbar-minimal">
         <div className="nav-brand">
-          <img src={logoImg} alt="ApexQ Logo" className="brand-logo" />
+         <img src="/logo.jpeg" alt="ApexQ Logo" className="brand-logo" />
           <span className="brand-name">ApexQ</span>
         </div>
       </nav>
