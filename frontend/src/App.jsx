@@ -33,14 +33,15 @@ function App() {
     setResult(null);
 
     try {
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
+  // FORCE THE EXACT LIVE URL DIRECTLY INTO THE CODESPACE
+  const backendUrl = 'https://apexq-backend.onrender.com';
+  
   const response = await fetch(`${backendUrl}/api/research`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    
-    body: JSON.stringify({ company: companyName }), 
+    body: JSON.stringify({ company: companyName }),
   });
 
   if (!response.ok) {
