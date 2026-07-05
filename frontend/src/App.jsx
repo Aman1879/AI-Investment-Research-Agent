@@ -33,25 +33,26 @@ function App() {
     setResult(null);
 
     try {
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
-      const response = await fetch(`${backendUrl}/api/research`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ companyName }),
-      });
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
+  const response = await fetch(`${backendUrl}/api/research`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    
+    body: JSON.stringify({ company: companyName }), 
+  });
 
-      if (!response.ok) {
-        const payload = await response.json().catch(() => null);
-        throw new Error(
-          payload?.error || 'Something went wrong fetching data'
-        );
-      }
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null);
+    throw new Error(
+      payload?.error || 'Something went wrong fetching data'
+    );
+  }
 
-      const data = await response.json();
-      setResult(data);
-    } catch (err) {
+  const data = await response.json();
+  setResult(data);
+}catch (err) {
       setError(err?.message || 'Failed to connect to backend.');
     } finally {
       setLoading(false);
