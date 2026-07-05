@@ -32,7 +32,7 @@ Open terminal and run the following commands:
 
 Bash
 cd backend
-# Install dependencies (using legacy-peer-deps to prevent package version conflicts)
+#### Install dependencies (using legacy-peer-deps to prevent package version conflicts)
 npm install @langchain/google-genai --legacy-peer-deps
 npm install
 node server.js
