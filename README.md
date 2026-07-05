@@ -1,6 +1,6 @@
 # Personal AI Investment Research Agent
 
-🚀 **Live Production Link:** [https://your-app-name.onrender.com](https://your-app-name.onrender.com)
+🚀 **Live Production Link:** https://apexq.onrender.com/
 A lightweight, autonomous web-research engine that bridges live internet scrapers with structured LLM analytical reasoning to evaluate corporate entities without default positivity or confirmation bias.
 
 
