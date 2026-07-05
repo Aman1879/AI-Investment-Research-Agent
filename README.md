@@ -25,9 +25,10 @@ Create a file named `.env` inside the `backend/` directory of the project and ad
 PORT=5000
 TAVILY_API_KEY=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
 GEMINI_API_KEY=AQ.Ab8RN6KxwlOpQzVyf-wxQV3E5zFI13aPJtq-fjS3K6Ga119cFw
-Step 2: Launch the Backend Server
+```
+### Step 2: Launch the Backend Server
 Open terminal and run the following commands:
-``` 
+
 
 Bash
 ```
@@ -39,7 +40,7 @@ node server.js
 ```
 Terminal will display: Backend running on port 5000
 
-Step 3: Launch the Frontend Interface
+### Step 3: Launch the Frontend Interface
 Open a second terminal window and run:
 
 Bash
